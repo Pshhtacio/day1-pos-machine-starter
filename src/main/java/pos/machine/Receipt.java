@@ -3,8 +3,8 @@ package pos.machine;
 import java.util.List;
 
 public class Receipt {
-    private List<ReceiptItem> receiptItems;
-    private int totalPrice;
+    private final List<ReceiptItem> receiptItems;
+    private final int totalPrice;
 
     public Receipt(List<ReceiptItem> receiptItems, int totalPrice) {
         this.receiptItems = receiptItems;
