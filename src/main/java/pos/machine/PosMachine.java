@@ -12,6 +12,7 @@ public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> items = decodeToItem(barcodes);
         Receipt receipt = calculateCost(items);
+        String renderReceipt = renderReceipt(receipt);
 
         return null;
     }
@@ -44,7 +45,9 @@ public class PosMachine {
     }
 
     public String renderReceipt(Receipt receipt) {
-        return null;
+        String itemsReceipt = generateItemsReceipt(receipt);
+        String generatedReceipt = generateReceipt(itemsReceipt, receipt.getTotalPrice());
+        return generatedReceipt;
     }
 
     public List<ReceiptItem> calculateItemsCost(List<ReceiptItem> receiptItems) {
@@ -64,11 +67,30 @@ public class PosMachine {
     }
 
     public String generateItemsReceipt(Receipt receipt) {
-        return null;
+        String itemReceipt = "";
+
+        List<ReceiptItem> receiptItems = receipt.getReceiptItems();
+        for (ReceiptItem item : receiptItems) {
+            String itemName = item.getName();
+            int quantity = item.getQuantity();
+            int unitPrice = item.getUnitPrice();
+            int subTotal = item.getsubTotal();
+            itemReceipt += "Name: " + itemName
+                    + ", Quantity: " + quantity
+                    + ", Unit price: " + unitPrice
+                    + " (yuan), Subtotal: " + subTotal
+                    + " (yuan)\n";
+        }
+
+        return itemReceipt;
     }
 
     public String generateReceipt(String itemsReceipt, int totalPrice) {
-        return null;
+        String receipt = "***<store earning no money>Receipt***\n" +
+                itemsReceipt + "----------------------\n" +
+                "Total: " + totalPrice + " (yuan)\n" +
+                "**********************";
+        return receipt;
     }
 
 
