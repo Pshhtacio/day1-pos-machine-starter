@@ -14,7 +14,7 @@ public class PosMachine {
         Receipt receipt = calculateCost(items);
         String renderReceipt = renderReceipt(receipt);
 
-        return null;
+        return renderReceipt;
     }
 
     public List<ReceiptItem> decodeToItem(List<String> barcodes) {
