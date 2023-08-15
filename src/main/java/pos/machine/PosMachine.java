@@ -11,6 +11,7 @@ import static pos.machine.ItemsLoader.loadAllItems;
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> items = decodeToItem(barcodes);
+        Receipt receipt = calculateCost(items);
 
         return null;
     }
@@ -35,7 +36,11 @@ public class PosMachine {
     }
 
     public Receipt calculateCost(List<ReceiptItem> receiptItem) {
-        return null;
+        List<ReceiptItem> receiptItems = calculateItemsCost(receiptItem);
+        int totalPrice = calculateTotalPrice(receiptItem);
+        Receipt receipt = new Receipt(receiptItems, totalPrice);
+
+        return receipt;
     }
 
     public String renderReceipt(Receipt receipt) {
@@ -43,12 +48,20 @@ public class PosMachine {
     }
 
     public List<ReceiptItem> calculateItemsCost(List<ReceiptItem> receiptItems) {
-        return null;
+        for (ReceiptItem item : receiptItems) {
+            item.setSubtotal(item.getQuantity() * item.getUnitPrice());
+        }
+
+        return receiptItems;
     }
 
-//    public int calculateTotalPrice(List<ReceiptItem> receiptItems) {
-//        return null;
-//    }
+    public int calculateTotalPrice(List<ReceiptItem> receiptItems) {
+        int total = 0;
+        for (ReceiptItem item : receiptItems) {
+            total += item.getsubTotal();
+        }
+        return total;
+    }
 
     public String generateItemsReceipt(Receipt receipt) {
         return null;
