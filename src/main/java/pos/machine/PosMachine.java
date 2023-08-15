@@ -12,9 +12,8 @@ public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> items = decodeToItem(barcodes);
         Receipt receipt = calculateCost(items);
-        String renderReceipt = renderReceipt(receipt);
 
-        return renderReceipt;
+        return renderReceipt(receipt);
     }
 
     public List<ReceiptItem> decodeToItem(List<String> barcodes) {
@@ -39,15 +38,13 @@ public class PosMachine {
     public Receipt calculateCost(List<ReceiptItem> receiptItem) {
         List<ReceiptItem> receiptItems = calculateItemsCost(receiptItem);
         int totalPrice = calculateTotalPrice(receiptItem);
-        Receipt receipt = new Receipt(receiptItems, totalPrice);
 
-        return receipt;
+        return new Receipt(receiptItems, totalPrice);
     }
 
     public String renderReceipt(Receipt receipt) {
         String itemsReceipt = generateItemsReceipt(receipt);
-        String generatedReceipt = generateReceipt(itemsReceipt, receipt.getTotalPrice());
-        return generatedReceipt;
+        return generateReceipt(itemsReceipt, receipt.getTotalPrice());
     }
 
     public List<ReceiptItem> calculateItemsCost(List<ReceiptItem> receiptItems) {
@@ -59,39 +56,39 @@ public class PosMachine {
     }
 
     public int calculateTotalPrice(List<ReceiptItem> receiptItems) {
-        int total = 0;
-        for (ReceiptItem item : receiptItems) {
-            total += item.getsubTotal();
-        }
-        return total;
+        return receiptItems.stream()
+                .mapToInt(ReceiptItem::getSubTotal)
+                .sum();
     }
 
+
     public String generateItemsReceipt(Receipt receipt) {
-        String itemReceipt = "";
+        StringBuilder itemReceiptBuilder = new StringBuilder();
 
         List<ReceiptItem> receiptItems = receipt.getReceiptItems();
         for (ReceiptItem item : receiptItems) {
             String itemName = item.getName();
             int quantity = item.getQuantity();
             int unitPrice = item.getUnitPrice();
-            int subTotal = item.getsubTotal();
-            itemReceipt += "Name: " + itemName
-                    + ", Quantity: " + quantity
-                    + ", Unit price: " + unitPrice
-                    + " (yuan), Subtotal: " + subTotal
-                    + " (yuan)\n";
+            int subTotal = item.getSubTotal();
+
+            String itemInfo = String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                    itemName, quantity, unitPrice, subTotal);
+
+            itemReceiptBuilder.append(itemInfo);
         }
 
-        return itemReceipt;
+        return itemReceiptBuilder.toString();
     }
 
     public String generateReceipt(String itemsReceipt, int totalPrice) {
-        String receipt = "***<store earning no money>Receipt***\n" +
-                itemsReceipt + "----------------------\n" +
+        return "***<store earning no money>Receipt***\n" +
+                itemsReceipt +
+                "----------------------\n" +
                 "Total: " + totalPrice + " (yuan)\n" +
                 "**********************";
-        return receipt;
     }
+
 
 
 }
