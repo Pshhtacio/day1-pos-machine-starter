@@ -1,9 +1,9 @@
 package pos.machine;
 
 public class ReceiptItem {
-    private String name;
-    private int quantity;
-    private int unitPrice;
+    private final String name;
+    private final int quantity;
+    private final int unitPrice;
     private int subTotal;
 
     public ReceiptItem(String name, int unitPrice, int quantity) {
@@ -16,27 +16,15 @@ public class ReceiptItem {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getUnitPrice() {
         return unitPrice;
-    }
-
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getsubTotal() {
+    public int getSubTotal() {
         return subTotal;
     }
 
